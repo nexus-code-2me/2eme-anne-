@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة المعدل الجامعي - École Polytechnique</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #0c1c3b;
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin-bottom: 100px; 
+        }
+        h2 {
+            color: #007BFF;
+            text-align: center;
+            font-size: 1.4rem;
+            margin-top: 10px;
+            margin-bottom: 25px;
+            line-height: 1.4;
+        }
+        .subject-card {
+            background: #a09fa5;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-left: 5px solid #007BFF;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        .subject-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .subject-title {
+            margin: 0;
+            font-size: 16px;
+            text-transform: capitalize;
+            color: #333;
+            font-weight: 600;
+        }
+        .coef-badge {
+            background-color: #e1f0ff;
+            color: #007BFF;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .inputs-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .inputs-container.three-inputs {
+            grid-template-columns: 1fr 1fr 1fr ;
+        }
+        input[type="number"] {
+            width: 100%;
+            height: 40px;
+            padding: 8px;
+            border: 1px solid #cdd7e2;
+            border-radius: 100px;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s;
+            text-align: center;
+        }
+        input[type="number"]:focus {
+            border-color: #007BFF;
+            box-shadow: 0 0 0 3px rgba(0,123,255,0.1);
+        }
+        #result-container {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #ffffff;
+            padding: 15px;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            z-index: 1000;
+        }
+        button {
+            height: 45px;
+            padding: 0 25px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            height: 45px;
+            width: 130px;
+            padding: 5px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #28a745;
+            text-align: center;
+            border: 2px solid #28a745;
+            border-radius: 6px;
+            background-color: #f4fff7;
+            outline: none;
+        }
+
+        @media (min-width: 600px) {
+            h2 {
+                font-size: 1.8rem;
+            }
+            .subject-card {
+                grid-template-columns: 200px 1fr;
+                align-items: center;
+                gap: 20px;
+            }
+            .subject-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            .inputs-container {
+                margin-left: auto;
+                width: 100%;
+                max-width: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>La moyenne du S2 - 2eme année<br><span style="color: #555; font-size: 1.1rem;">École Nationale Polytechnique</span></h2>
+
+        <div class="subject-card">
+            <div class="subject-info">
+                <h3 class="subject-title">analysis</h3>
+                <span class="coef-badge">Coef: 3</span>
+            </div>
+            <div class="inputs-container">
+                <input type="number" id="anaintero" placeholder="Interro (40%)" min="0" max="20" step="0.25">
+                <input type="number" id="anaexam" placeholder="Exam (60%)" min="0" max="20" step="0.25">
+            </div>
+        </div>
+
+        <div class="subject-card">
+            <div class="subject-info">
+                <h3 class="subject-title">physique</h3>
+                <span class="coef-badge">Coef: 4</span>
+            </div>
+            <div class="inputs-container three-inputs">
+                <input type="number" id="physintero" placeholder="Interro (20%)" min="0" max="20" step="0.25">
+                <input type="number" id="phystp" placeholder="TP (30%)" min="0" max="20" step="0.25">
+                <input type="number" id="physexam" placeholder="Exam (50%)" min="0" max="20" step="0.25">
+            </div>
+        </div>
+
+        <div class="subject-card">
+            <div class="subject-info">
+                <h3 class="subject-title">chimie</h3>
+                <span class="coef-badge">Coef: 3</span>
+            </div>
+            <div class="inputs-container three-inputs">
+                <input type="number" id="chimintero" placeholder="Interro (20%)" min="0" max="20" step="0.25">
+                <input type="number" id="chimtp" placeholder="TP (30%)" min="0" max="20" step="0.25">
+                <input type="number" id="chimexam" placeholder="Exam (50%)" min="0" max="20" step="0.25">
+            </div>
+        </div>
+
+        <div class="subject-card">
+            <div class="subject-info">
+                <h3 class="subject-title">electronique</h3>
+                <span class="coef-badge">Coef: 3</span>
+            </div>
+            <div class="inputs-container three-inputs">
+                <input type="number" id="algintero" placeholder="Interro (20%)" min="0" max="20" step="0.25">
+                <input type="number" id="algtp" placeholder="TP (30%)" min="0" max="20" step="0.25">
+                <input type="number" id="algexam" placeholder="Exam (50%)" min="0" max="20" step="0.25">
+            </div>
+        </div>
+
+        <div class="subject-card">
+            <div class="subject-info">
+                <h3 class="subject-title">informatique</h3>
+                <span class="coef-badge">Coef: 3</span>
+            </div>
+            <div class="inputs-container">
+                <input type="number" id="infintero" placeholder="Interro (40%)" min="0" max="20" step="0.25">
+                <input type="number" id="infexam" placeholder="Exam (60%)" min="0" max="20" step="0.25">
+            </div>
+        </div>
+
+        <div class="subject-card">
+            <div class="subject-info">
+                <h3 class="subject-title">analysis numérique</h3>
+                <span class="coef-badge">Coef: 3</span>
+            </div>
+            <div class="inputs-container three-inputs">
+                <input type="number" id="anuintero" placeholder="Interro (20%)" min="0" max="20" step="0.25">
+                <input type="number" id="anutp" placeholder="TP (30%)" min="0" max="20" step="0.25">
+                <input type="number" id="anuexam" placeholder="Exam (50%)" min="0" max="20" step="0.25">
+            </div>
+        </div>
+
+        <div class="subject-card">
+            <div class="subject-info">
+                <h3 class="subject-title">Technique d'expression</h3>
+                <span class="coef-badge">Coef: 1</span>
+            </div>
+            <div class="inputs-container">
+                <input type="number" id="desintero" placeholder="Interro (40%)" min="0" max="20" step="0.25">
+                <input type="number" id="desexam" placeholder="Exam (60%)" min="0" max="20" step="0.25">
+            </div>
+        </div>
+
+        <div class="subject-card">
+            <div class="subject-info">
+                <h3 class="subject-title">mecanique rationnelle</h3>
+                <span class="coef-badge">Coef: 3</span>
+            </div>
+            <div class="inputs-container">
+                <input type="number" id="mecintero" placeholder="Interro (40%)" min="0" max="20" step="0.25">
+                <input type="number" id="mecexam" placeholder="Exam (60%)" min="0" max="20" step="0.25">
+            </div>
+        </div>
+
+        <div class="subject-card">
+            <div class="subject-info">
+                <h3 class="subject-title">engineering</h3>
+                <span class="coef-badge">Coef: 3</span>
+            </div>
+            <div class="inputs-container">
+                <input type="number" id="humanaintero" placeholder="TP (30%)" min="0" max="20" step="0.25">
+                <input type="number" id="humexam" placeholder="Exam (70%)" min="0" max="20" step="0.25">
+            </div>
+        </div>
+
+        <div class="subject-card">
+            <div class="subject-info">
+                <h3 class="subject-title">english</h3>
+                <span class="coef-badge">Coef: 1</span>
+            </div>
+            <div class="inputs-container">
+                <input type="number" id="engintero" placeholder="Interro (40%)" min="0" max="20" step="0.25">
+                <input type="number" id="engexam" placeholder="Exam (60%)" min="0" max="20" step="0.25">
+            </div>
+        </div>
+
+        <div class="subject-card">
+            <div class="subject-info">
+                <h3 class="subject-title">Strength of Materials</h3>
+                <span class="coef-badge">Coef: 3</span>
+            </div>
+            <div class="inputs-container">
+                <input type="number" id="SthMatintero" placeholder="Interro (40%)" min="0" max="20" step="0.25">
+                <input type="number" id="SthMatexam" placeholder="Exam (60%)" min="0" max="20" step="0.25">
+            </div>
+        </div>
+
+    </div>
+
+    <div id="result-container">
+        <button type="button" onclick="calcul()">Calculate</button>
+        <input type="text" id="result" readonly placeholder="المعدل العام">
+    </div>
+
+    <script>
+        // دالة مخصصة لحساب معدل مادة مكوّنة من خانتين (Interro + Exam) مرنة
+        function calcDouble(idInterro, idExam, weightInterro, weightExam) {
+            let intVal = document.getElementById(idInterro).value;
+            let exVal = document.getElementById(idExam).value;
+            
+            if (intVal === "" && exVal === "") return null; // مادة فارغة تماماً
+            
+            let interro = intVal === "" ? 0 : Number(intVal);
+            let exam = exVal === "" ? 0 : Number(exVal);
+            return (interro * weightInterro) + (exam * weightExam);
+        }
+
+        // دالة مخصصة لحساب معدل مادة مكوّنة من 3 خانات (Interro + TP + Exam) مرنة
+        function calcTriple(idInterro, idTp, idExam, weightInterro, weightTp, weightExam) {
+            let intVal = document.getElementById(idInterro).value;
+            let tpVal = document.getElementById(idTp).value;
+            let exVal = document.getElementById(idExam).value;
+            
+            if (intVal === "" && tpVal === "" && exVal === "") return null; // مادة فارغة تماماً
+            
+            let interro = intVal === "" ? 0 : Number(intVal);
+            let tp = tpVal === "" ? 0 : Number(tpVal);
+            let exam = exVal === "" ? 0 : Number(exVal);
+            return (interro * weightInterro) + (tp * weightTp) + (exam * weightExam);
+        }
+
+        function calcul() {
+            let totalPoints = 0;
+            let totalCoef = 0;
+
+            // مصفوفة تحتوي على إعدادات كل المواد لتسهيل الحساب الديناميكي والآمن
+            let subjects = [
+                { res: calcDouble('anaintero', 'anaexam', 0.4, 0.6), coef: 3 },
+                { res: calcTriple('physintero', 'phystp', 'physexam', 0.2, 0.3, 0.5), coef: 4 },
+                { res: calcTriple('chimintero', 'chimtp', 'chimexam', 0.2, 0.3, 0.5), coef: 3 },
+                { res: calcTriple('algintero', 'algtp', 'algexam', 0.2, 0.3, 0.5), coef: 3 },
+                { res: calcDouble('infintero', 'infexam', 0.4, 0.6), coef: 3 },
+                { res: calcTriple('anuintero', 'anutp', 'anuexam', 0.2, 0.3, 0.5), coef: 3 },
+                { res: calcDouble('desintero', 'desexam', 0.4, 0.6), coef: 1 },
+                { res: calcDouble('mecintero', 'mecexam', 0.4, 0.6), coef: 3 },
+                { res: calcDouble('humanaintero', 'humexam', 0.3, 0.7), coef: 3 },
+                { res: calcDouble('engintero', 'engexam', 0.4, 0.6), coef: 1 },
+                { res: calcDouble('SthMatintero', 'SthMatexam', 0.4, 0.6), coef: 3 }
+            ];
+
+            // المرور على المواد وحساب المجموع بناءً على الخانات المملوءة فقط
+            for (let sub of subjects) {
+                if (sub.res !== null) {
+                    totalPoints += sub.res * sub.coef;
+                    totalCoef += sub.coef;
+                }
+            }
+
+            // عرض النتيجة النهائية
+            if (totalCoef > 0) {
+                let finalAvg = totalPoints / totalCoef;
+                document.getElementById('result').value = finalAvg.toFixed(2);
+            } else {
+                document.getElementById('result').value = "0.00";
+            }
+        }
+    </script>
+
+</body>
+</html>
